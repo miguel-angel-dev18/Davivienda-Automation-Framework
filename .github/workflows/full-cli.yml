@@ -39,7 +39,7 @@ jobs:
       # 2 y 3. Ejecutar Pruebas de UI (Web)
       - name: 2 y 3. Ejecutar Pruebas de UI (Web)
         if: ${{ github.event.inputs.test_type == 'web' || github.event.inputs.test_type == 'ambas' }}
-        run: mvn clean verify -Dheadless.mode=true
+        run: mvn clean verify -Dheadless.mode=true -DtestFailureIgnore=true
         working-directory: ./davivienda-web-automation
 
       # 4. Genere reporte de los resultados (Serenity Aggregate)

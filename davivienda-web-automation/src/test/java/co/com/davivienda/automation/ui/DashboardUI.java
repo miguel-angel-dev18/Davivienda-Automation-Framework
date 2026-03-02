@@ -32,8 +32,8 @@ public class DashboardUI
     public static final Target BTN_SAVE = Target.the("botón guardar")
             .locatedBy("//button[@type='submit']");
 
-    public static final Target LBL_PROFILE_NAME = Target.the("nombre del perfil en el encabezado")
-            .locatedBy("//h6[contains(@class, 'oxd-text--h6') and contains(@class, '--strong')]");
+    public static final Target LBL_PROFILE_NAME = Target.the("nombre del perfil")
+            .locatedBy("//h6[contains(@class, 'oxd-text--h6')][not(text()='Loading')]");
 
     public static final Target PHOTO_PERFIL = Target.the("foto de perfil del empleado")
             .locatedBy("//img[@class='employee-image'] | //div[@class='orangehrm-edit-employee-image']//img");

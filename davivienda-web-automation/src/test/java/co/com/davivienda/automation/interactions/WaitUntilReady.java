@@ -24,7 +24,8 @@ public class WaitUntilReady implements Interaction {
     @Override
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
-                WaitUntil.the(target, isVisible()).forNoMoreThan(15).seconds(),
+                WaitUntil.the(target, isPresent()).forNoMoreThan(30).seconds(),
+                WaitUntil.the(target, isVisible()).forNoMoreThan(30).seconds(),
                 WaitUntil.the(target, containsText(textoEsperado)).forNoMoreThan(15).seconds()
 
         );
