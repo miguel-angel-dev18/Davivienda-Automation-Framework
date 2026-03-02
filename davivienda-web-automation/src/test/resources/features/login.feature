@@ -15,4 +15,4 @@ Feature:Registro y verificación  del empleado en el directorio
 
     Examples:
       | usuario | clave | nombre_perfil | nombre |segundo_nombre| apellido|codigo_empleado |
-      | Admin   | admin123 |hello1 Test12name| test   |  software    | davivienda| 0012 |
+      | Admin   | admin123 |manda user| test   |  software    | davivienda| 0012 |
