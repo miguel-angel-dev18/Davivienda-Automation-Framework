@@ -30,27 +30,27 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      # 2 y 3. Ejecutar Pruebas de API (Punto de partida: carpeta API)
+      # 2 y 3. Ejecutar Pruebas de API
       - name: 2 y 3. Ejecutar Pruebas de API
         if: ${{ github.event.inputs.test_type == 'api' || github.event.inputs.test_type == 'ambas' || github.event_name == 'push' }}
         run: mvn clean verify
-        working-directory: .
+        working-directory: ./davivienda-api-automation
 
-      # 2 y 3. Ejecutar Pruebas de UI (Web) - Subiendo un nivel
+      # 2 y 3. Ejecutar Pruebas de UI (Web)
       - name: 2 y 3. Ejecutar Pruebas de UI (Web)
         if: ${{ github.event.inputs.test_type == 'web' || github.event.inputs.test_type == 'ambas' }}
         run: mvn clean verify -Dheadless.mode=true
-        working-directory: ../davivienda-web-automation
+        working-directory: ./davivienda-web-automation
 
       # 4. Genere reporte de los resultados (Serenity Aggregate)
       - name: 4. Generar Reportes Serenity
         if: always()
         run: |
-          if [ -d "./target/site/serenity" ]; then
-            mvn serenity:aggregate
+          if [ -d "./davivienda-api-automation/target/site/serenity" ]; then
+            cd ./davivienda-api-automation && mvn serenity:aggregate
           fi
-          if [ -d "../davivienda-web-automation/target/site/serenity" ]; then
-            cd ../davivienda-web-automation && mvn serenity:aggregate
+          if [ -d "./davivienda-web-automation/target/site/serenity" ]; then
+            cd ./davivienda-web-automation && mvn serenity:aggregate
           fi
 
       # 5. Los almacene (Artifacts de GitHub)
