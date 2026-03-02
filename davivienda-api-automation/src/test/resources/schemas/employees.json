@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["data", "meta", "rels"],
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["empNumber", "lastName", "firstName", "middleName", "employeeId", "jobTitle", "subunit", "empStatus", "supervisors"],
+        "properties": {
+          "empNumber": { "type": "integer" },
+          "lastName": { "type": "string" },
+          "firstName": { "type": "string" },
+          "middleName": { "type": "string" },
+          "employeeId": { "type": "string" },
+          "terminationId": { "type": ["null", "integer", "string"] },
+          "jobTitle": {
+            "type": "object",
+            "properties": {
+              "id": { "type": ["null", "integer"] },
+              "title": { "type": ["null", "string"] },
+              "isDeleted": { "type": ["null", "boolean"] }
+            }
+          },
+          "subunit": {
+            "type": "object",
+            "properties": {
+              "id": { "type": ["null", "integer"] },
+              "name": { "type": ["null", "string"] }
+            }
+          },
+          "empStatus": {
+            "type": "object",
+            "properties": {
+              "id": { "type": ["null", "integer"] },
+              "name": { "type": ["null", "string"] }
+            }
+          },
+          "supervisors": {
+            "type": "array",
+            "items": {}
+          }
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": ["total"],
+      "properties": {
+        "total": { "type": "integer" }
+      }
+    },
+    "rels": {
+      "type": "array",
+      "items": {}
+    }
+  }
+}

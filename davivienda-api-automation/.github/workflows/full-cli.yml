@@ -1,0 +1,62 @@
+name: Pipeline CI/CD Davivienda
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+    inputs:
+      test_type:
+        description: 'Seleccione la suite de pruebas a ejecutar'
+        required: true
+        default: 'api'
+        type: choice
+        options:
+          - api
+          - web
+          - ambas
+
+jobs:
+  automation-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Obtenga el código fuente del repositorio (Git)
+      - name: 1. Checkout Git
+        uses: actions/checkout@v4
+
+      - name: Configurar Entorno Java (JDK 17)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      # 2 y 3. Ejecutar Pruebas de API (Punto de partida: carpeta API)
+      - name: 2 y 3. Ejecutar Pruebas de API
+        if: ${{ github.event.inputs.test_type == 'api' || github.event.inputs.test_type == 'ambas' || github.event_name == 'push' }}
+        run: mvn clean verify
+        working-directory: .
+
+      # 2 y 3. Ejecutar Pruebas de UI (Web) - Subiendo un nivel
+      - name: 2 y 3. Ejecutar Pruebas de UI (Web)
+        if: ${{ github.event.inputs.test_type == 'web' || github.event.inputs.test_type == 'ambas' }}
+        run: mvn clean verify -Dheadless.mode=true
+        working-directory: ../davivienda-web-automation
+
+      # 4. Genere reporte de los resultados (Serenity Aggregate)
+      - name: 4. Generar Reportes Serenity
+        if: always()
+        run: |
+          if [ -d "./target/site/serenity" ]; then
+            mvn serenity:aggregate
+          fi
+          if [ -d "../davivienda-web-automation/target/site/serenity" ]; then
+            cd ../davivienda-web-automation && mvn serenity:aggregate
+          fi
+
+      # 5. Los almacene (Artifacts de GitHub)
+      - name: 5. Almacenar Reportes Finales
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reportes-automatizacion-davivienda
+          path: "**/target/site/serenity"
