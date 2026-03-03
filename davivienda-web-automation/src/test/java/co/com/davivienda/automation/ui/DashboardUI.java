@@ -33,7 +33,7 @@ public class DashboardUI
             .locatedBy("//button[@type='submit']");
 
     public static final Target LBL_PROFILE_NAME = Target.the("nombre del perfil")
-            .locatedBy("//h6[contains(@class, 'oxd-text--h6')][not(text()='Loading')]");
+            .locatedBy("//div[@class='orangehrm-edit-employee-name']//h6");
 
     public static final Target PHOTO_PERFIL = Target.the("foto de perfil del empleado")
             .locatedBy("//img[@class='employee-image'] | //div[@class='orangehrm-edit-employee-image']//img");
